@@ -1,0 +1,9 @@
+com\cnebrera\uc3\tech\lesson1\PracticeLatency1.class
+com\cnebrera\uc3\tech\lesson1\PracticeLatency2.class
+com\cnebrera\uc3\tech\lesson1\simulator\SyncOpSimulLongOperation.class
+com\cnebrera\uc3\tech\lesson1\simulator\SyncOpSimulRndPark.class
+com\cnebrera\uc3\tech\lesson1\PracticeLatency3$Runner.class
+com\cnebrera\uc3\tech\lesson1\PracticeLatency3.class
+com\cnebrera\uc3\tech\lesson1\simulator\SyncOpSimulSleep.class
+com\cnebrera\uc3\tech\lesson1\simulator\BaseSyncOpSimulator.class
+com\cnebrera\uc3\tech\lesson1\PracticeLatency3$1.class

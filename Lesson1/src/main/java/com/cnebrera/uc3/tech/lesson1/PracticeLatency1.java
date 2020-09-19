@@ -10,10 +10,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class PracticeLatency1
 {
-    /**
-     * Main method to run the practice
-     * @param args command line arument
-     */
+
     public static void main(String [] args)
     {
         runCalculations();

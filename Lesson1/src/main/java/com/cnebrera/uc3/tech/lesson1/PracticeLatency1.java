@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
  * First practice, measure latency on a simple operation
  */
 public class PracticeLatency1 {
-    final static long COST_TO_MEASURE_NS = TimeUnit.NANOSECONDS.toNanos(40);
+    final static long COST_TO_MEASURE_NS = 40;
 
     public static void main(String[] args) {
         runCalculations();
@@ -27,10 +27,11 @@ public class PracticeLatency1 {
         // Create the histogram object
         Histogram histogram = new Histogram(
                 TimeUnit.NANOSECONDS.toNanos(100),
-                TimeUnit.MILLISECONDS.toNanos(2),
+                TimeUnit.MILLISECONDS.toNanos(3),
                 3
         );
-        //histogram.setAutoResize(true);
+        // Error control
+        histogram.setAutoResize(true);
 
         for (int i = 0; i < 100000; i++) {
             long startTime = System.nanoTime();
@@ -38,8 +39,7 @@ public class PracticeLatency1 {
             long latency = (System.nanoTime() - startTime) - (COST_TO_MEASURE_NS * 2);
             histogram.recordValue(latency);
         }
-
-        PrintStream histogramLog = new PrintStream(System.out);
-        histogram.outputPercentileDistribution(histogramLog, 1000.0);
+        // Output
+        histogram.outputPercentileDistribution(new PrintStream(System.out), 1000.0);
     }
 }

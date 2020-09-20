@@ -41,18 +41,12 @@ public class PracticeLatency2 {
     }
 
     private static void printHistogramData(int iterationNum) {
-        double mean = histogram.getMean();
-        long minValue = histogram.getMinValue();
-        long maxValue = histogram.getMaxValue();
-        long percentile99 = histogram.getValueAtPercentile(99);
-        long percentile999 = histogram.getValueAtPercentile(99.9);
-
         System.out.println("Iteration: " +iterationNum);
-        System.out.println("Min: " + minValue);
-        System.out.println("Max: " + maxValue);
-        System.out.println("Mean: " + mean);
-        System.out.println("Percentile 99: " + percentile99);
-        System.out.println("Percentile 99.9: " + percentile999);
+        System.out.println("Min: " + histogram.getMinValue());
+        System.out.println("Max: " + histogram.getMaxValue());
+        System.out.println("Mean: " + histogram.getMean());
+        System.out.println("Percentile 99: " + histogram.getValueAtPercentile(99));
+        System.out.println("Percentile 99.9: " + histogram.getValueAtPercentile(99.9));
         System.out.println("=================");
     }
 }

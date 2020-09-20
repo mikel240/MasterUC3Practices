@@ -10,29 +10,26 @@ import java.util.concurrent.TimeUnit;
 /**
  * Third practice, measure accumulated latency with multiple threads
  */
-public class PracticeLatency3
-{
-    /** Number of consumer threads to run */
+public class PracticeLatency3 {
+    /**
+     * Number of consumer threads to run
+     */
     final static int NUM_THREADS = 1;
-    /** Number of executions per thread */
+    /**
+     * Number of executions per thread
+     */
     final static int NUM_EXECUTIONS = 100;
-    /** Expected max executions per second */
+    /**
+     * Expected max executions per second
+     */
     final static int MAX_EXPECTED_EXECUTIONS_PER_SECOND = 50;
 
-    /**
-     * Main method to run the practice
-     * @param args command line arument
-     */
-    public static void main(String [] args)
-    {
+
+    public static void main(String[] args) {
         runCalculations();
     }
 
-    /**
-     * Run the practice calculations
-     */
-    private static void runCalculations()
-    {
+    private static void runCalculations() {
         // Create a sleep time simulator, it will sleep for 10 milliseconds in each call
         BaseSyncOpSimulator syncOpSimulator = new SyncOpSimulSleep(10);
 
@@ -40,8 +37,7 @@ public class PracticeLatency3
         List<Runner> runners = new LinkedList<>();
 
         // Create the threads and start them
-        for (int i = 0; i < NUM_THREADS; i ++)
-        {
+        for (int i = 0; i < NUM_THREADS; i++) {
             final Runner runner = new Runner(syncOpSimulator);
             runners.add(runner);
             new Thread(runner).start();
@@ -56,12 +52,15 @@ public class PracticeLatency3
     /**
      * The runner that represent a thread execution
      */
-    private static class Runner implements Runnable
-    {
-        /** The shared operation simulator */
+    private static class Runner implements Runnable {
+        /**
+         * The shared operation simulator
+         */
         final BaseSyncOpSimulator syncOpSimulator;
 
-        /** True if finished */
+        /**
+         * True if finished
+         */
         volatile boolean finished = false;
 
         /**
@@ -69,14 +68,12 @@ public class PracticeLatency3
          *
          * @param syncOpSimulator shared operation simulator
          */
-        private Runner(BaseSyncOpSimulator syncOpSimulator)
-        {
+        private Runner(BaseSyncOpSimulator syncOpSimulator) {
             this.syncOpSimulator = syncOpSimulator;
         }
 
         @Override
-        public void run()
-        {
+        public void run() {
             // Calculate the expected time between consecutive calls, considering the number of executions per second
             final long expectedTimeBetweenCalls = TimeUnit.SECONDS.toMillis(1) / MAX_EXPECTED_EXECUTIONS_PER_SECOND;
 
@@ -84,10 +81,9 @@ public class PracticeLatency3
             long nextCallTime = System.currentTimeMillis();
 
             // Execute the operation the required number of times
-            for(int i = 0; i < NUM_EXECUTIONS; i++)
-            {
+            for (int i = 0; i < NUM_EXECUTIONS; i++) {
                 // Wait until there is the time for the next call
-                while(System.currentTimeMillis() < nextCallTime);
+                while (System.currentTimeMillis() < nextCallTime) ;
 
                 // Execute the operation, it will sleep for 10 milliseconds
                 syncOpSimulator.executeOp();
@@ -99,17 +95,14 @@ public class PracticeLatency3
             finished = true;
         }
 
-        /** Wait for the runner execution to complete */
-        public void waitToFinish()
-        {
-            while(!this.finished)
-            {
-                try
-                {
+        /**
+         * Wait for the runner execution to complete
+         */
+        public void waitToFinish() {
+            while (!this.finished) {
+                try {
                     Thread.sleep(1);
-                }
-                catch (InterruptedException e)
-                {
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                     return;
                 }

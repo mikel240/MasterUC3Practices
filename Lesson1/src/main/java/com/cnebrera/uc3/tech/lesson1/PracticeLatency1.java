@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
  * First practice, measure latency on a simple operation
  */
 public class PracticeLatency1 {
-    private static final int COST_TO_MEASURE_NS = 40;
+    private static final int COST_TO_MEASURE_MS_IN_NS = 40;
 
     public static void main(String[] args) {
         runCalculations();
@@ -36,7 +36,7 @@ public class PracticeLatency1 {
         for (int i = 0; i < 100000; i++) {
             long startTime = System.nanoTime();
             syncOpSimulator.executeOp();
-            long latency = (System.nanoTime() - startTime) - (COST_TO_MEASURE_NS * 2);
+            long latency = (System.nanoTime() - startTime) - (COST_TO_MEASURE_MS_IN_NS * 2);
             histogram.recordValue(latency);
         }
         // Output

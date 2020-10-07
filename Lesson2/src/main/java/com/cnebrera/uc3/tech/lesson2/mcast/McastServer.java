@@ -40,7 +40,7 @@ public class McastServer {
      */
     private static void sendMessage(final InetAddress address, final DatagramSocket serverSocket) throws IOException, InterruptedException {
         // Generate random message
-        final VariableSizeMessage rndMsg = VariableSizeMessage.generateRandomMsg(80000);
+        final VariableSizeMessage rndMsg = VariableSizeMessage.generateRandomMsg(8);
         // Convert the message to binary
         final ByteBuffer binaryMessage = rndMsg.toBinary();
         binaryMessage.flip();

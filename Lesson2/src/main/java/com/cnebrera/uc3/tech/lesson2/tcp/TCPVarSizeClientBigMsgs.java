@@ -10,7 +10,7 @@ import java.nio.ByteBuffer;
 public class TCPVarSizeClientBigMsgs {
     public static void main(String argv[]) throws Exception {
         // Create the client socket
-        final Socket clientSocket = new Socket("localhost", 6799);
+        final Socket clientSocket = new Socket("localhost", 6789);
         // Get the input stream
         final InputStream inputStream = clientSocket.getInputStream();
 

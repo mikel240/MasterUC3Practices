@@ -14,7 +14,7 @@ import java.nio.ByteBuffer;
 public class TCPVarSizeServer {
     public static void main(String argv[]) throws Exception {
         // Create a socket
-        final ServerSocket welcomeSocket = new ServerSocket(6799);
+        final ServerSocket welcomeSocket = new ServerSocket(6789);
         // Accept connection
         final Socket connectionSocket = welcomeSocket.accept();
         // Call sendMessagesToClient

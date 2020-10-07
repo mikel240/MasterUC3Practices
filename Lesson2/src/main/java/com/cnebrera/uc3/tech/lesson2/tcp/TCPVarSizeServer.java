@@ -39,7 +39,7 @@ public class TCPVarSizeServer {
             headerBuffer.clear();
 
             // Generate random message
-            final VariableSizeMessage rndMsg = VariableSizeMessage.generateRandomMsg(80000);
+            final VariableSizeMessage rndMsg = VariableSizeMessage.generateRandomMsg(8);
             // Convert to binary
             final ByteBuffer binaryMessage = rndMsg.toBinary();
             // Serialize the msg size

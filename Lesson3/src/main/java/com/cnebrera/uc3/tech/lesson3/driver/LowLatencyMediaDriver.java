@@ -30,7 +30,6 @@ public class LowLatencyMediaDriver
         try (final MediaDriver ignored = MediaDriver.launch(ctx))
         {
             System.out.println("Driver started...");
-
             new SigIntBarrier().await();
         }
 

@@ -1,5 +1,3 @@
-package subscriber;
-
 import io.aeron.Aeron;
 import io.aeron.FragmentAssembler;
 import io.aeron.Subscription;
@@ -12,14 +10,12 @@ public class Subscriber {
     private static final int FRAGMENT_LIMIT_COUNT = 1;
 
     public static void main(final String[] args) {
-        // Fragment handler arrow function
         final FragmentHandler fragmentHandler = (buffer, offset, length, header) -> {
             final byte[] data = new byte[length];
             buffer.getBytes(offset, data);
             final String receivedString = new String(data);
             System.out.println(receivedString);
         };
-
         final Aeron.Context ctx = new Aeron.Context();
 
         try (Aeron aeron = Aeron.connect(ctx);
@@ -31,12 +27,11 @@ public class Subscriber {
     }
 
     private static void callPolling(Subscription subscription, FragmentHandler fragmentHandler) {
-        final BusySpinIdleStrategy idleStrategy = new BusySpinIdleStrategy();
-        final FragmentAssembler assembler = new FragmentAssembler(fragmentHandler);
+            final BusySpinIdleStrategy idleStrategy = new BusySpinIdleStrategy();
 
-        while (true) {
-            int fragmentsRead = subscription.poll(assembler, FRAGMENT_LIMIT_COUNT);
-            idleStrategy.idle(fragmentsRead); // Active wait
-        }
+            while (true) {
+                int fragmentsRead = subscription.poll(fragmentHandler, FRAGMENT_LIMIT_COUNT);
+                idleStrategy.idle(fragmentsRead);
+            }
     }
 }

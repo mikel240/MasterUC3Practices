@@ -1,5 +1,3 @@
-package publisher;
-
 import io.aeron.Aeron;
 import io.aeron.Publication;
 import org.agrona.BitUtil;
@@ -7,18 +5,17 @@ import org.agrona.BufferUtil;
 import org.agrona.concurrent.UnsafeBuffer;
 
 public class Publisher {
+    //aeron:udp?endpoint=224.0.0.1:40456
     private static final String CHANNEL = "aeron:udp?endpoint=224.0.1.1:40456";
     private static final int STREAM_ID = 10;
     private static final int NUMBER_OF_MESSAGES = 10000;
 
     public static void main(final String[] args) {
+        final UnsafeBuffer buffer = new UnsafeBuffer(BufferUtil.allocateDirectAligned(512, BitUtil.CACHE_LINE_LENGTH));
         final Aeron.Context ctx = new Aeron.Context();
 
-        try (
-                Aeron aeron = Aeron.connect(ctx);
-                Publication publication = aeron.addPublication(CHANNEL, STREAM_ID)
-        ) {
-            final UnsafeBuffer buffer = new UnsafeBuffer(BufferUtil.allocateDirectAligned(512, BitUtil.CACHE_LINE_LENGTH));
+        try (Aeron aeron = Aeron.connect(ctx);
+             Publication publication = aeron.addPublication(CHANNEL, STREAM_ID)) {
             sendMessages(publication, buffer);
         } catch (Exception e) {
             e.printStackTrace();
@@ -31,26 +28,20 @@ public class Publisher {
             final byte[] messageBytes = message.getBytes();
             buffer.putBytes(0, messageBytes);
 
-            // Publish message
             final long result = publication.offer(buffer, 0, messageBytes.length);
-            // Error control
             final String error = getError(result);
 
-            // Check if something went wrong
+            // If something went wrong
             if (error.length() > 0) {
                 System.out.println(error);
             } else {
                 System.out.println("Message sended!");
             }
 
-            // wait for 1 sec
             Thread.sleep(1000);
         }
     }
 
-    /**
-     * Return publisher error message or empty string
-     */
     private static String getError(long result) {
         if (result >= 0L) {
             return "";

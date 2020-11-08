@@ -1,4 +1,4 @@
-package com.cnebrera.uc3.tech.lesson4.handlers.long_polling ;
+package com.cnebrera.uc3.tech.lesson4.handlers.long_polling;
 
 import java.io.IOException;
 
@@ -14,58 +14,64 @@ import com.cnebrera.uc3.tech.lesson4.handlers.PricesPublisher;
 /**
  * Atmosphere handler
  * --------------------------------------
+ *
  * @author Francisco Manuel Benitez Chico
  * --------------------------------------
  */
 
-// TODO 1
-public class LongPollingHandler implements AtmosphereHandler
-{
-	/** Attribute - Prices Listener - Long Polling */
-	private IPricesListener pricesListener ;
-	
+@AtmosphereHandlerService(path = "/prices/long-polling")
+public class LongPollingHandler implements AtmosphereHandler {
+    /**
+     * Attribute - Prices Listener - Long Polling
+     */
+    private IPricesListener pricesListener;
+
     @Override
-    public void onRequest(final AtmosphereResource atmosphereResource) throws IOException
-    {
-    	if (this.pricesListener == null)
-    	{
-    		// New prices listener
-    		this.pricesListener = new PricesListenerLongPolling() ;
-    		
-    		// Add the listener to the publisher
-    		PricesPublisher.getInstance().addPricesListener(this.pricesListener) ;
-    	}
-    	
-    	// Get the Atmosphere request
-    	final AtmosphereRequest atmosphereRequest = atmosphereResource.getRequest() ;
-    	
-    	// TODO 2
-    }   
-    
-    @Override
-    public void onStateChange(final AtmosphereResourceEvent atmosphereResourceEvent) throws IOException
-    {
-    	// TODO 3
+    public void onRequest(final AtmosphereResource atmosphereResource) throws IOException {
+        if (this.pricesListener == null) {
+            // New prices listener
+            this.pricesListener = new PricesListenerLongPolling();
+
+            // Add the listener to the publisher
+            PricesPublisher.getInstance().addPricesListener(this.pricesListener);
+        }
+
+        // Get the Atmosphere request
+        final AtmosphereRequest atmosphereRequest = atmosphereResource.getRequest();
+
+        // Suspend connection
+        atmosphereRequest.resource().suspend(-1);
+        // Send price
+        ((PricesListenerLongPolling) this.pricesListener)
+                .sendPendingPricesChange(atmosphereRequest.resource().getResponse());
+        // Resume connection
+        atmosphereRequest.resource().resume();
     }
 
-	@Override
-	public void destroy()
-	{
-		// TODO 4
-	}
-	
-	/**
-	 * Remove the listener
-	 */
-	private void removeListener()
-	{
-		if (this.pricesListener != null)
-		{
-			// Add the listener to the publisher
-			PricesPublisher.getInstance().removePricesListener(this.pricesListener) ;
-			
-			// Set to null
-			this.pricesListener = null ;
-		}
-	}
+    @Override
+    public void onStateChange(final AtmosphereResourceEvent atmosphereResourceEvent) throws IOException {
+        if (atmosphereResourceEvent.isCancelled()
+                || atmosphereResourceEvent.isClosedByApplication()
+                || atmosphereResourceEvent.isClosedByClient()) {
+            this.removeListener();
+        }
+    }
+
+    @Override
+    public void destroy() {
+        this.removeListener();
+    }
+
+    /**
+     * Remove the listener
+     */
+    private void removeListener() {
+        if (this.pricesListener != null) {
+            // Add the listener to the publisher
+            PricesPublisher.getInstance().removePricesListener(this.pricesListener);
+
+            // Set to null
+            this.pricesListener = null;
+        }
+    }
 }   

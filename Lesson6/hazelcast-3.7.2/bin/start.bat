@@ -3,7 +3,7 @@
 SETLOCAL
 
 REM Descomentad la linea de abajo y poned vuestro java si no os funciona
-REM set JAVA_HOME="C:\Program Files (x86)\Java\jdk1.7.0_09"
+ set JAVA_HOME="C:\Program Files\Java\jdk1.8.0_271"
 if NOT DEFINED JAVA_HOME goto error
 set RUN_JAVA="%JAVA_HOME%\bin\java"
 

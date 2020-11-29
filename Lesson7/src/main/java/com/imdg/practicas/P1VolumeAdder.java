@@ -20,9 +20,8 @@ public class P1VolumeAdder {
 
         HazelcastInstance client = Hazelcast.newHazelcastInstance( config );
 
-
-
         IMap<String, MarketOrder> mapCustomers = client.getMap("ordenesMercado");
+
         //Limpia cache
         mapCustomers.clear();
 
@@ -43,6 +42,5 @@ public class P1VolumeAdder {
         }
 
         client.shutdown();
-
     }
 }

@@ -20,28 +20,25 @@ import java.util.Map;
 public class P2VolumeProcessing {
 
     private static void rellenaCache(IMap<String, MarketOrder> mapCustomers) {
-
         //Limpia cache
         mapCustomers.clear();
 
         //Añade 1000 ordenes a la cache
-        for (int i=0; i<1000; ++i) {
-            MarketOrder order = new MarketOrder("BBVA",400, 642);
-            MarketOrder orderRep = new MarketOrder("Intel",500,3400);
-            mapCustomers.set("Ibex35OrderID_"+i, order);
-            mapCustomers.set("DowJonesOrderID_"+i, orderRep);
+        for (int i = 0; i < 1000; ++i) {
+            MarketOrder order = new MarketOrder("BBVA", 400, 642);
+            MarketOrder orderRep = new MarketOrder("Intel", 500, 3400);
+            mapCustomers.set("Ibex35OrderID_" + i, order);
+            mapCustomers.set("DowJonesOrderID_" + i, orderRep);
         }
 
         //Actualiza 100 ordenes
-        for (int i=0; i<100; ++i) {
-            MarketOrder order = new MarketOrder("BBVA",555, 642);
-            MarketOrder orderRep = new MarketOrder("Intel",1000,3400);
-            mapCustomers.set("Ibex35OrderID_"+i, order);
-            mapCustomers.set("DowJonesOrderID_"+i, orderRep);
+        for (int i = 0; i < 100; ++i) {
+            MarketOrder order = new MarketOrder("BBVA", 555, 642);
+            MarketOrder orderRep = new MarketOrder("Intel", 1000, 3400);
+            mapCustomers.set("Ibex35OrderID_" + i, order);
+            mapCustomers.set("DowJonesOrderID_" + i, orderRep);
         }
-
     }
-
 
     public static void main(String[] args) throws Exception {
         // Instanciar hazelcast Cliente y crear una cache{
@@ -49,24 +46,23 @@ public class P2VolumeProcessing {
         config.getNetworkConfig().getJoin().getTcpIpConfig().addMember("localhost").setEnabled(true);
         config.getNetworkConfig().getJoin().getMulticastConfig().setEnabled(false);
 
-        HazelcastInstance client = Hazelcast.newHazelcastInstance( config );
+        HazelcastInstance client = Hazelcast.newHazelcastInstance(config);
         IMap<String, MarketOrder> mapCustomers = client.getMap("ordenesMercado");
+
         //Rellena cache (simulación, en un caso real la rellenaría la operativa diaria)
         rellenaCache(mapCustomers);
 
+        //Ret contiene parejas <Clave, ObjetoRetornado EnProcess del Processor>
+        Map<String, Object> ret = mapCustomers.executeOnEntries(new OrderProcessor());
 
-        //Añadir listener a la cache que imprima/de una alerta cuando detecte que el volumen acumulado ha llegado a 30000
-        Map<String, Object> ret=mapCustomers.executeOnEntries(new OrderProcessor());
-        //Ret contiene parejas <Clave, ObjetoRetornadoEnProcess del Processor>
-
-        //Procesar los objetos que ha devuelto nuestro processor,
-        //Recordad que nuestro processor devuelve un entero
-        for (Map.Entry<String,Object> orderVolumes : ret.entrySet()) {
-
+        //Procesar los objetos que ha devuelto nuestro processor
+        Integer totalVolumen = 0;
+        for (Map.Entry<String, Object> orderVolumes : ret.entrySet()) {
+            totalVolumen += Integer.parseInt(orderVolumes.getValue().toString());
         }
+        System.out.println("Volumen total = " + totalVolumen);
 
-
-        if( mapCustomers.entrySet(new EqualPredicate("volume",0)).isEmpty() ) {
+        if (mapCustomers.entrySet(new EqualPredicate("volume", 0)).isEmpty()) {
             throw new Exception("Los volumenes de todos los elementos deben quedar a 0");
         }
 

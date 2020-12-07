@@ -1,0 +1,51 @@
+/*******************************
+This class has been automatically generated using Velocity!
+${now}
+*******************************/
+
+package ${packageName};
+
+#foreach($classImport in $classImports)
+    import ${classImport};
+#end
+
+public class ${className}
+{
+	/** Attribute - myListStringValues */
+	private List<String> myListStringValues ;
+
+	/**
+	 * Public Constructor
+	 */
+	public ${className}()
+	{
+		this.myListStringValues = new ArrayList<String>() ;
+
+		// Set values from Velocity
+        #if(!$stringValues || ${stringValues.isEmpty()})
+            throw new RuntimeException("No string values were injected by Velocity");
+        #else
+            #foreach($stringValue in $stringValues)
+                this.myListStringValues.add("${stringValue}");
+        #end
+        #set($message = "Velocity injected values!")
+            System.out.println("${message}");
+        #end
+     }
+	/**
+	 * @return myListStringValues as string
+	 */
+	public String toString()
+	{
+		return myListStringValues.toString() ;
+	}
+
+	/**
+	 * @param args with the input arguments
+	 */
+	public static void main(final String[] args)
+	{
+		final ${className} myExample = new ${className}() ;
+		System.out.println(myExample.toString()) ;
+	}
+}

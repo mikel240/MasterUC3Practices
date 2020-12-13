@@ -17,16 +17,16 @@ import java.nio.file.Paths;
 /**
  * Main Class that measure the performance
  */
-public class JsonTest
-{
-    /** a org.slf4j.Logger with the instance of this class given by org.slf4j.LoggerFactory */
+public class JsonTest {
+    /**
+     * a org.slf4j.Logger with the instance of this class given by org.slf4j.LoggerFactory
+     */
     private final static Logger LOGGER = LoggerFactory.getLogger(JsonTest.class);
 
     private final static JaxbSerializer jaxbSerializer = new JaxbSerializer();
     private final static JsonSerializer jsonSerializer = new JsonSerializer();
 
-    public static void main(String[] args) throws URISyntaxException, IOException
-    {
+    public static void main(String[] args) throws URISyntaxException, IOException {
         URL url = JsonTest.class.getClassLoader().getResource("Example.xml");
         URL urlJson = JsonTest.class.getClassLoader().getResource("Example.json");
 

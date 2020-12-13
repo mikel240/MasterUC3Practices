@@ -1,53 +1,54 @@
 package com.cnebrera.uc3.tech.lesson9.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.xml.bind.annotation.*;
+
 /**
  * This class represents the instrument info
  */
-public class Instrument
-{
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "instrument")
+public class Instrument {
+    @XmlAttribute(name = "instrumentId")
+    @JsonProperty(value = "instrument_id")
     /** a int that identifies the instrument */
     private int instrumentId;
 
+    @XmlAttribute(name = "symbol")
+    @JsonProperty(value = "symbol")
     /** human understood representation of the security */
     private String symbol;
 
 
-    public int getInstrumentId()
-    {
+    public int getInstrumentId() {
         return instrumentId;
     }
 
-    public void setInstrumentId(int instrumentId)
-    {
+    public void setInstrumentId(int instrumentId) {
         this.instrumentId = instrumentId;
     }
 
-    public String getSymbol()
-    {
+    public String getSymbol() {
         return symbol;
     }
 
-    public void setSymbol(String symbol)
-    {
+    public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
 
     @Override
-    public boolean equals(Object o)
-    {
-        if (this == o)
-        {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass())
-        {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
         Instrument that = (Instrument) o;
 
-        if (instrumentId != that.instrumentId)
-        {
+        if (instrumentId != that.instrumentId) {
             return false;
         }
         return symbol != null ? symbol.equals(that.symbol) : that.symbol == null;
@@ -55,8 +56,7 @@ public class Instrument
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int result = instrumentId;
         result = 31 * result + (symbol != null ? symbol.hashCode() : 0);
         return result;

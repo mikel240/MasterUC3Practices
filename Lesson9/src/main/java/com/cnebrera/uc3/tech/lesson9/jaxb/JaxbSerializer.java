@@ -17,77 +17,64 @@ import java.io.StringWriter;
 /**
  * Created by alexvarela on 23/11/16.
  */
-public class JaxbSerializer implements Serializer<ReferenceData, String>
-{
-    /** a org.slf4j.Logger with the instance of this class given by org.slf4j.LoggerFactory */
+public class JaxbSerializer implements Serializer<ReferenceData, String> {
+    /**
+     * a org.slf4j.Logger with the instance of this class given by org.slf4j.LoggerFactory
+     */
     private final static Logger LOGGER = LoggerFactory.getLogger(JaxbSerializer.class);
 
-    /** The {@link javax.xml.bind.Marshaller} in order to serialize the xml */
+    /**
+     * The {@link javax.xml.bind.Marshaller} in order to serialize the xml
+     */
     private Marshaller marshaller;
 
-    /** The {@link javax.xml.bind.Unmarshaller} in order to deserialize the xml */
+    /**
+     * The {@link javax.xml.bind.Unmarshaller} in order to deserialize the xml
+     */
     private Unmarshaller unmarshaller;
 
-    public JaxbSerializer()
-    {
+    public JaxbSerializer() {
         JAXBContext jaxbContext = null;
-        try
-        {
+        try {
             jaxbContext = JAXBContext.newInstance(ReferenceData.class, Instrument.class);
 
-        }
-        catch (JAXBException e)
-        {
-           LOGGER.error("Error initialising the JAXBConetxt", e);
+        } catch (JAXBException e) {
+            LOGGER.error("Error initialising the JAXBConetxt", e);
 
         }
-        try
-        {
+        try {
             this.marshaller = jaxbContext.createMarshaller();
-        }
-        catch (JAXBException e)
-        {
+        } catch (JAXBException e) {
             LOGGER.error("Error creating the Marshaller", e);
         }
 
 
-        try
-        {
+        try {
             this.unmarshaller = jaxbContext.createUnmarshaller();
-        }
-        catch (JAXBException e)
-        {
+        } catch (JAXBException e) {
             LOGGER.error("Error creating the Unmarshaller", e);
         }
 
     }
 
 
-    public String serialize(ReferenceData referenceData)
-    {
+    public String serialize(ReferenceData referenceData) {
         StringWriter stringWriter = new StringWriter();
 
-        try
-        {
+        try {
             this.marshaller.marshal(referenceData, stringWriter);
-        }
-        catch (JAXBException e)
-        {
+        } catch (JAXBException e) {
             System.err.println(e);
         }
         return stringWriter.toString();
     }
 
-    public ReferenceData deserialize(String rawData)
-    {
+    public ReferenceData deserialize(String rawData) {
         StringReader reader = new StringReader(rawData);
         ReferenceData referenceData = null;
-        try
-        {
+        try {
             referenceData = (ReferenceData) this.unmarshaller.unmarshal(reader);
-        }
-        catch (JAXBException e)
-        {
+        } catch (JAXBException e) {
             e.printStackTrace();
         }
 

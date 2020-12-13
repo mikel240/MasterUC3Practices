@@ -39,4 +39,3 @@ public class JaxbTest
         LOGGER.debug("[Practica 1] Algorithm marketId{}", referenceData.getMarketId());
     }
 }
-

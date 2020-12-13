@@ -29,7 +29,7 @@
 		</xs:sequence>
 		<xs:attribute name="lessonId" type="xs:integer" use="required" />
 	</xs:complexType>
-	
+
 	<xs:element name="studentLessons">
 		<xs:complexType>
 			<xs:sequence>

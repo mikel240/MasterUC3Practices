@@ -28,11 +28,11 @@ public class Subscriber {
                 final byte[] data = new byte[length];
                 directBuffer.getBytes(offset, data);
                 final String receivedString = new String(data);
+                System.out.println(receivedString);
 
                 final byte[] messageBytes = receivedString.getBytes();
                 BUFFER.putBytes(0, messageBytes);
                 publication.offer(BUFFER, 0, messageBytes.length);
-                System.out.println(receivedString);
             };
             callPolling(subscription, fragmentHandler);
         } catch (Exception e) {

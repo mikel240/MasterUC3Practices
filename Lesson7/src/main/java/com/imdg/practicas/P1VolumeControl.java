@@ -17,8 +17,6 @@ import java.util.ArrayList;
  * Created by Sobremesa on 31/10/2016.
  */
 public class P1VolumeControl {
-
-
     public static void main(String[] args) {
         // Instanciar hazelcast Cliente y crear una cache{
         Config config = new Config();

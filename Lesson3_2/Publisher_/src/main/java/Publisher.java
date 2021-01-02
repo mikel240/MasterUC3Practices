@@ -16,7 +16,7 @@ public class Publisher {
     private static final String CHANNEL_SUB = "aeron:udp?endpoint=224.0.1.3:40455";
     private static final int STREAM_ID_PUB = 10;
     private static final int STREAM_ID_SUB = 11;
-    final static long EXPECTED_TIME_BEETWEEN_CALLS = TimeUnit.SECONDS.toNanos(1) / 40000;
+    final static long EXPECTED_TIME_BEETWEEN_CALLS = TimeUnit.SECONDS.toNanos(1) / 100000;
     private static final int COST_TO_MEASURE_NS_IN_NS = 40;
     private static int MESSAGES_TO_SEND = 100000;
     private static int messagesReceived = 0;
@@ -32,7 +32,7 @@ public class Publisher {
         );
         accHistogram = new Histogram(
                 TimeUnit.NANOSECONDS.toNanos(50),
-                TimeUnit.MILLISECONDS.toNanos(50),
+                TimeUnit.MILLISECONDS.toNanos(30),
                 3
         );
         // Error control
@@ -50,7 +50,13 @@ public class Publisher {
 
             // Publisher and consumer threads
             Thread consumerThread = new Thread(() -> receiveMessage(subscription));
-            Thread publisherThread = new Thread(() -> sendMessages(publication));
+            Thread publisherThread = new Thread(() -> {
+                try {
+                    sendMessages(publication);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
 
             consumerThread.start();
             Thread.sleep(1000); // Wait to consumer to rise up
@@ -62,19 +68,22 @@ public class Publisher {
 
             //Output histogram
             printHistograms();
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             e.printStackTrace();
         }
+
     }
 
-    private static void sendMessages(Publication publication) {
+    private static void sendMessages(Publication publication) throws InterruptedException {
         final UnsafeBuffer buffer = new UnsafeBuffer(
                 BufferUtil.allocateDirectAligned(512, BitUtil.CACHE_LINE_LENGTH)
         );
         long zeroTime = System.nanoTime();
         long nextCallTime = zeroTime;
+        int i = 0;
 
-        for (int i = 0; i < MESSAGES_TO_SEND; i++) {
+        while (i < MESSAGES_TO_SEND) {
             // Wait until there is the time for the next call
             while (System.nanoTime() < nextCallTime) ;
 
@@ -89,11 +98,19 @@ public class Publisher {
 
             // Output errors
             if (offerHasErrors(result)) {
-                System.out.println(getOfferError(result));
+                // Cola llena > Esperamos a liberar espacio
+                if (result == Publication.BACK_PRESSURED) {
+                    System.out.println("BACK_PRESSURED - waiting 5ms for " + i);
+                    Thread.sleep(5);
+                } else {
+                    System.out.print(getOfferError(result));
+                }
+                continue; // next iteration
             }
 
             // Calculate the next time limit to send the message
             nextCallTime += EXPECTED_TIME_BEETWEEN_CALLS;
+            i++;
         }
     }
 

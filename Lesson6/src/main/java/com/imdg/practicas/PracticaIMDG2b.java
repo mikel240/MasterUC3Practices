@@ -26,44 +26,32 @@ public class PracticaIMDG2b {
                 .setEnabled(false);
 
         // Instanciar hazelcast
-        HazelcastInstance hazelInstance =
-                Hazelcast.newHazelcastInstance(config);
-
-        // Countdown
-        ICountDownLatch latch = hazelInstance.getCountDownLatch("countDownLatch");
-        if (latch.getCount() == 0) {
-            latch.trySetCount(3);
-        }
-
+        HazelcastInstance hazelInstance = Hazelcast.newHazelcastInstance(config);
         // Crea mapa clave-valor distribuido
         Map<String, Person> hazelMap = hazelInstance.getMap("people");
 
-        // Nuevo objeto Person
-        Person persona2 = new Person(
+        // Countdown
+        ICountDownLatch latch = hazelInstance.getCountDownLatch("countDownLatch");
+        latch.trySetCount(3); // 3 miembros
+
+
+        // Anyade objeto persona a hazelmap
+        hazelMap.put("node2", new Person(
                 "Fernando Fernandez",
                 28052,
                 "St. Goya",
                 "St. Goya nº321"
-        );
-
-        // Anyade obj a hazelmap
-        hazelMap.put("node2", persona2);
+        ));
 
         // Sync nodes
         latch.countDown();
         latch.await(20, TimeUnit.SECONDS);
 
         // Leer datos
-        System.out.println(hazelMap.get("node2").toString());
-        Person node1Person = hazelMap.get("node1");
-        Person node3Person = hazelMap.get("node3");
+        System.out.println(hazelMap.get("node1"));
+        System.out.println(hazelMap.get("node2"));
+        System.out.println(hazelMap.get("node3"));
 
-        if (node1Person != null){
-            System.out.println(hazelMap.get("node1").toString());
-        }
-
-        if (node3Person != null){
-            System.out.println(hazelMap.get("node3").toString());
-        }
+        latch.destroy();
     }
 }

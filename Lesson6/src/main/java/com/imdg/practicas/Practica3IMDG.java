@@ -12,20 +12,19 @@ import java.util.Map;
 public class Practica3IMDG {
 
     public static void main(String[] args) {
-        // Instanciar hazelcast Cliente y crear una cache
         ClientConfig config = new ClientConfig();
         ArrayList<String> ips = new ArrayList();
         ips.add("127.0.0.1");
         config.getNetworkConfig().setAddresses(ips);
 
+        // Instanciar hazelcast cliente y crear una cache
         HazelcastInstance client = HazelcastClient.newHazelcastClient(config);
-
-        // Crea mapa clave-valor distribuido
         Map<String, String> hazelMap = client.getMap("practice6");
 
-        System.out.println(hazelMap.get("data"));
-        hazelMap.put("data", "Dato guardado en caché");
-        System.out.println(hazelMap.get("data"));
+        // Lectura
+        System.out.println("Valor antes de guardarlo en caché: " + hazelMap.get("data"));
+        hazelMap.put("data", "Lorem ipsum");
+        System.out.println("Valor después de guardarlo en caché: " + hazelMap.get("data"));
 
         client.shutdown();
     }

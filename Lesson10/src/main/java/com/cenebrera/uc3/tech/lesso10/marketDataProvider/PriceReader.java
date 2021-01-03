@@ -2,7 +2,12 @@ package com.cenebrera.uc3.tech.lesso10.marketDataProvider;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import quickfix.Session;
 import quickfix.SessionID;
+import quickfix.SessionNotFound;
+import quickfix.field.*;
+import quickfix.fix44.MarketDataIncrementalRefresh;
+import quickfix.fix44.component.Instrument;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,36 +19,33 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by alexvarela on 20/12/16.
  */
-public class PriceReader
-{
+public class PriceReader {
     private final Map<Long, Double> prices = new ConcurrentHashMap<Long, Double>();
     private final URL file;
     private final Timer timer;
-    /** a org.slf4j.Logger with the instance of this class given by org.slf4j.LoggerFactory */
+    /**
+     * a org.slf4j.Logger with the instance of this class given by org.slf4j.LoggerFactory
+     */
     private final static Logger LOGGER = LoggerFactory.getLogger(PriceReader.class);
 
-    public PriceReader(URL file)
-    {
+    public PriceReader(URL file) {
         this.file = file;
         this.timer = new Timer("Send Prices");
     }
 
-    public  void init() throws URISyntaxException, FileNotFoundException
-    {
+    public void init() throws URISyntaxException, FileNotFoundException {
         //Read the file with prices
         Scanner sc = new Scanner(new File(this.file.toURI()));
 
         //Read each line
-        while (sc.hasNext())
-        {
+        while (sc.hasNext()) {
             //New Line
             String line = sc.nextLine();
             //get the two numbers
             String splitArray[] = line.split(" ");
 
             //the array must have 2 elements
-            if (splitArray.length != 2)
-            {
+            if (splitArray.length != 2) {
                 throw new IllegalArgumentException("The file in bad formatted");
             }
 
@@ -53,23 +55,21 @@ public class PriceReader
     }
 
     //Run the schedule of the incrementalRefresh.
-    public void start(SessionID sessionID, String mdReqId)
-    {
+    public void start(SessionID sessionID, String mdReqId) {
         long init = System.currentTimeMillis();
-        for (Map.Entry<Long, Double> entry : this.prices.entrySet())
-        {
-            this.timer.schedule(new ReplayTask(sessionID, entry.getValue(), mdReqId) , new Date(init + entry.getKey() * 1000));
+        for (Map.Entry<Long, Double> entry : this.prices.entrySet()) {
+            this.timer.schedule(new ReplayTask(sessionID, entry.getValue(), mdReqId), new Date(init + entry.getKey() * 1000));
         }
     }
 
 
     /**
      * This class is used to send the messages
-     *
      */
-    private static class ReplayTask extends TimerTask
-    {
-        /** a org.slf4j.Logger with the instance of this class given by org.slf4j.LoggerFactory */
+    private static class ReplayTask extends TimerTask {
+        /**
+         * a org.slf4j.Logger with the instance of this class given by org.slf4j.LoggerFactory
+         */
         private final static Logger LOGGER = LoggerFactory.getLogger(ReplayTask.class);
 
         /**
@@ -92,19 +92,37 @@ public class PriceReader
          * Constructor of the ReplayTask
          *
          * @param sessionID a {@link SessionID} in order to send the messages
-         * @param value a {@link Double} with the price.
-         * @param mdReqId a {@link String} with the market data request Id.
+         * @param value     a {@link Double} with the price.
+         * @param mdReqId   a {@link String} with the market data request Id.
          */
-        public ReplayTask(SessionID sessionID, Double value, String mdReqId)
-        {
+        public ReplayTask(SessionID sessionID, Double value, String mdReqId) {
             this.sessionID = sessionID;
             this.price = value;
             this.mdReqId = mdReqId;
         }
 
-        public void run()
-        {
-            // TODO send incremental
+        public void run() {
+            // Send incremental
+            // Receive market data incremental
+            MarketDataIncrementalRefresh incrementalRefresh = new MarketDataIncrementalRefresh();
+            incrementalRefresh.set(new MDReqID(mdReqId));
+            MarketDataIncrementalRefresh.NoMDEntries entries = new MarketDataIncrementalRefresh.NoMDEntries();
+            //Update action
+            entries.set(new MDUpdateAction('0'));
+            //MDentry price
+            entries.set(new MDEntryPx(price));
+            //MDentry Type
+            entries.set(new MDEntryType('2'));
+            //Instrument
+            Instrument instrument = new Instrument();
+            instrument.set(new Symbol("BBVA"));
+            entries.set(instrument);
+            incrementalRefresh.addGroup(entries);
+            try {
+                Session.sendToTarget(incrementalRefresh, sessionID);
+            } catch (SessionNotFound sessionNotFound) {
+                LOGGER.debug("Errorsendingmessage");
+            }
         }
     }
 }

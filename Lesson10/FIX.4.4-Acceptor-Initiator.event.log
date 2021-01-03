@@ -1,0 +1,113 @@
+20210103-15:04:36: Session FIX.4.4:Acceptor->Initiator schedule is daily, 00:00:00-UTC - 00:00:00-UTC
+20210103-15:04:36: Created session: FIX.4.4:Acceptor->Initiator
+20210103-15:04:51: Accepting session FIX.4.4:Acceptor->Initiator from /127.0.0.1:49806
+20210103-15:04:51: Acceptor heartbeat set to 6 seconds
+20210103-15:04:51: Logon contains ResetSeqNumFlag=Y, resetting sequence numbers to 1
+20210103-15:04:51: Received logon
+20210103-15:04:51: Responding to Logon request
+20210103-15:12:12: Session FIX.4.4:Acceptor->Initiator schedule is daily, 00:00:00-UTC - 00:00:00-UTC
+20210103-15:12:12: Created session: FIX.4.4:Acceptor->Initiator
+20210103-15:12:22: Accepting session FIX.4.4:Acceptor->Initiator from /127.0.0.1:49902
+20210103-15:12:22: Acceptor heartbeat set to 6 seconds
+20210103-15:12:22: Logon contains ResetSeqNumFlag=Y, resetting sequence numbers to 1
+20210103-15:12:22: Received logon
+20210103-15:12:22: Responding to Logon request
+20210103-15:15:19: Session FIX.4.4:Acceptor->Initiator schedule is daily, 00:00:00-UTC - 00:00:00-UTC
+20210103-15:15:19: Created session: FIX.4.4:Acceptor->Initiator
+20210103-15:15:25: Accepting session FIX.4.4:Acceptor->Initiator from /127.0.0.1:49982
+20210103-15:15:25: Acceptor heartbeat set to 20 seconds
+20210103-15:15:25: Logon contains ResetSeqNumFlag=Y, resetting sequence numbers to 1
+20210103-15:15:25: Received logon
+20210103-15:15:25: Responding to Logon request
+20210103-15:15:48: Disconnecting: Socket exception (/127.0.0.1:49982): java.io.IOException: An existing connection was forcibly closed by the remote host
+20210103-15:20:35: Session FIX.4.4:Acceptor->Initiator schedule is daily, 00:00:00-UTC - 00:00:00-UTC
+20210103-15:20:35: Created session: FIX.4.4:Acceptor->Initiator
+20210103-15:20:46: Accepting session FIX.4.4:Acceptor->Initiator from /127.0.0.1:50063
+20210103-15:20:46: Acceptor heartbeat set to 6 seconds
+20210103-15:20:46: Received logon
+20210103-15:20:46: Responding to Logon request
+20210103-15:20:46: MsgSeqNum too high, expecting 1 but received 3: 8=FIX.4.49=7135=A34=349=Initiator52=20210103-15:20:46.50756=Acceptor98=0108=610=174
+20210103-15:20:46: Enqueued at pos 3: 8=FIX.4.49=7135=A34=349=Initiator52=20210103-15:20:46.50756=Acceptor98=0108=610=174
+20210103-15:20:46: Sent ResendRequest FROM: 1 TO: 2
+20210103-15:20:46: Disconnecting: Socket exception (/127.0.0.1:50063): java.io.IOException: An established connection was aborted by the software in your host machine
+20210103-15:20:46: quickfix.SessionException Logon state is not valid for message (MsgType=5)
+20210103-15:20:46: Already disconnected: Verifying message failed: quickfix.SessionException: Logon state is not valid for message (MsgType=5)
+20210103-15:21:16: Accepting session FIX.4.4:Acceptor->Initiator from /127.0.0.1:50067
+20210103-15:21:16: Acceptor heartbeat set to 6 seconds
+20210103-15:21:16: Logon contains ResetSeqNumFlag=Y, resetting sequence numbers to 1
+20210103-15:21:16: Received logon
+20210103-15:21:16: Responding to Logon request
+20210103-15:21:36: Disconnecting: Socket exception (/127.0.0.1:50067): java.io.IOException: An existing connection was forcibly closed by the remote host
+20210103-15:31:03: Session FIX.4.4:Acceptor->Initiator schedule is daily, 00:00:00-UTC - 00:00:00-UTC
+20210103-15:31:03: Created session: FIX.4.4:Acceptor->Initiator
+20210103-15:31:07: Accepting session FIX.4.4:Acceptor->Initiator from /127.0.0.1:50189
+20210103-15:31:07: Acceptor heartbeat set to 6 seconds
+20210103-15:31:07: Received logon
+20210103-15:31:07: Responding to Logon request
+20210103-15:31:07: Disconnecting: Socket exception (/127.0.0.1:50189): java.io.IOException: An existing connection was forcibly closed by the remote host
+20210103-15:31:16: Accepting session FIX.4.4:Acceptor->Initiator from /127.0.0.1:50215
+20210103-15:31:16: Acceptor heartbeat set to 6 seconds
+20210103-15:31:16: Received logon
+20210103-15:31:16: Responding to Logon request
+20210103-15:31:16: MsgSeqNum too high, expecting 1 but received 6: 8=FIX.4.49=7135=A34=649=Initiator52=20210103-15:31:16.64156=Acceptor98=0108=610=175
+20210103-15:31:16: Enqueued at pos 6: 8=FIX.4.49=7135=A34=649=Initiator52=20210103-15:31:16.64156=Acceptor98=0108=610=175
+20210103-15:31:16: Sent ResendRequest FROM: 1 TO: 5
+20210103-15:31:16: Received logout request: MsgSeqNum too low, expecting 6 but received 1
+20210103-15:31:16: Sent logout response
+20210103-15:31:46: Accepting session FIX.4.4:Acceptor->Initiator from /127.0.0.1:50218
+20210103-15:31:46: Acceptor heartbeat set to 6 seconds
+20210103-15:31:46: Logon contains ResetSeqNumFlag=Y, resetting sequence numbers to 1
+20210103-15:31:46: Received logon
+20210103-15:31:46: Responding to Logon request
+20210103-15:32:15: Disconnecting: Socket exception (/127.0.0.1:50218): java.io.IOException: An existing connection was forcibly closed by the remote host
+20210103-15:33:11: Session FIX.4.4:Acceptor->Initiator schedule is daily, 00:00:00-UTC - 00:00:00-UTC
+20210103-15:33:11: Created session: FIX.4.4:Acceptor->Initiator
+20210103-15:33:18: Accepting session FIX.4.4:Acceptor->Initiator from /127.0.0.1:50275
+20210103-15:33:18: Acceptor heartbeat set to 6 seconds
+20210103-15:33:18: Received logon
+20210103-15:33:18: Responding to Logon request
+20210103-15:33:18: MsgSeqNum too high, expecting 1 but received 6: 8=FIX.4.49=7135=A34=649=Initiator52=20210103-15:33:18.42956=Acceptor98=0108=610=183
+20210103-15:33:18: Enqueued at pos 6: 8=FIX.4.49=7135=A34=649=Initiator52=20210103-15:33:18.42956=Acceptor98=0108=610=183
+20210103-15:33:18: Sent ResendRequest FROM: 1 TO: 5
+20210103-15:33:18: Received logout request: MsgSeqNum too low, expecting 6 but received 1
+20210103-15:33:18: Sent logout response
+20210103-15:33:48: Accepting session FIX.4.4:Acceptor->Initiator from /127.0.0.1:50277
+20210103-15:33:48: Acceptor heartbeat set to 6 seconds
+20210103-15:33:48: Logon contains ResetSeqNumFlag=Y, resetting sequence numbers to 1
+20210103-15:33:48: Received logon
+20210103-15:33:48: Responding to Logon request
+20210103-15:33:50: Disconnecting: Socket exception (/127.0.0.1:50277): java.io.IOException: An existing connection was forcibly closed by the remote host
+20210103-15:33:57: Accepting session FIX.4.4:Acceptor->Initiator from /127.0.0.1:50303
+20210103-15:33:57: Acceptor heartbeat set to 6 seconds
+20210103-15:33:57: Received logon
+20210103-15:33:57: Responding to Logon request
+20210103-15:33:57: MsgSeqNum too high, expecting 1 but received 2: 8=FIX.4.49=7135=A34=249=Initiator52=20210103-15:33:57.84756=Acceptor98=0108=610=186
+20210103-15:33:57: Enqueued at pos 2: 8=FIX.4.49=7135=A34=249=Initiator52=20210103-15:33:57.84756=Acceptor98=0108=610=186
+20210103-15:33:57: Sent ResendRequest FROM: 1 TO: 1
+20210103-15:33:57: Received logout request: MsgSeqNum too low, expecting 2 but received 1
+20210103-15:33:57: Sent logout response
+20210103-15:41:19: Session FIX.4.4:Acceptor->Initiator schedule is daily, 00:00:00-UTC - 00:00:00-UTC
+20210103-15:41:19: Created session: FIX.4.4:Acceptor->Initiator
+20210103-15:41:25: Accepting session FIX.4.4:Acceptor->Initiator from /127.0.0.1:50408
+20210103-15:41:25: Acceptor heartbeat set to 6 seconds
+20210103-15:41:25: Logon contains ResetSeqNumFlag=Y, resetting sequence numbers to 1
+20210103-15:41:25: Received logon
+20210103-15:41:25: Responding to Logon request
+20210103-15:42:10: Disconnecting: Socket exception (/127.0.0.1:50408): java.io.IOException: An existing connection was forcibly closed by the remote host
+20210103-15:42:21: Accepting session FIX.4.4:Acceptor->Initiator from /127.0.0.1:50448
+20210103-15:42:21: Acceptor heartbeat set to 6 seconds
+20210103-15:42:21: Received logon
+20210103-15:42:21: Responding to Logon request
+20210103-15:42:21: MsgSeqNum too high, expecting 1 but received 9: 8=FIX.4.49=7135=A34=949=Initiator52=20210103-15:42:21.27856=Acceptor98=0108=610=182
+20210103-15:42:21: Enqueued at pos 9: 8=FIX.4.49=7135=A34=949=Initiator52=20210103-15:42:21.27856=Acceptor98=0108=610=182
+20210103-15:42:21: Sent ResendRequest FROM: 1 TO: 8
+20210103-15:42:21: Received logout request: MsgSeqNum too low, expecting 9 but received 1
+20210103-15:42:21: Sent logout response
+20210103-18:53:44: Session FIX.4.4:Acceptor->Initiator schedule is daily, 00:00:00-UTC - 00:00:00-UTC
+20210103-18:53:44: Created session: FIX.4.4:Acceptor->Initiator
+20210103-18:53:56: Accepting session FIX.4.4:Acceptor->Initiator from /127.0.0.1:50944
+20210103-18:53:56: Acceptor heartbeat set to 6 seconds
+20210103-18:53:56: Logon contains ResetSeqNumFlag=Y, resetting sequence numbers to 1
+20210103-18:53:56: Received logon
+20210103-18:53:56: Responding to Logon request
+20210103-18:54:07: Disconnecting: Socket exception (/127.0.0.1:50944): java.io.IOException: An existing connection was forcibly closed by the remote host
